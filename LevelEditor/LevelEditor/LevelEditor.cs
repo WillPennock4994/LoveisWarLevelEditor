@@ -11,8 +11,13 @@ using System.IO;
 
 namespace LevelEditor
 {
+    
+
     public partial class LevelEditor : Form
     {
+        public string file;
+        public string folderPath;
+
         public LevelEditor()
         {
             InitializeComponent();
@@ -24,7 +29,7 @@ namespace LevelEditor
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string file = openFileDialog1.FileName;
+                file = openFileDialog1.FileName;
                 try
                 {
                     
@@ -48,7 +53,7 @@ namespace LevelEditor
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string folderPath = folderBrowserDialog1.SelectedPath;
+                folderPath = folderBrowserDialog1.SelectedPath;
                 try
                 {
                     textBox2.Text = folderPath;
@@ -68,7 +73,23 @@ namespace LevelEditor
 
         private void button3_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string filename = textBox3.Text;
 
+                Stream str = File.OpenWrite(filename);
+                BinaryWriter output = new BinaryWriter(str);
+
+                output.Write(file);
+
+                output.Close();
+
+                label1.Text = "Done!";
+            }
+            catch(IOException)
+            {
+
+            }
         }
     }
 }
