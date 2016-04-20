@@ -15,14 +15,17 @@ namespace LevelEditor
 
     public partial class LevelEditor : Form
     {
+        //attributes for choice of file and folder path
         public string file;
         public string folderPath;
 
+        //default initialization
         public LevelEditor()
         {
             InitializeComponent();
         }
 
+        //clicking the first button opens a seach for a file
         private void button1_Click(object sender, EventArgs e)
         {
             
@@ -32,22 +35,24 @@ namespace LevelEditor
                 file = openFileDialog1.FileName;
                 try
                 {
-                    
+                    //places the file path in the text box correllating to the button pressed.
                     textBox1.Text = file;
                     
                 }
-                catch(IOException)
+                catch(IOException ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
             }
         }
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-
+            //nothing here
         }
 
+        //pressing button2 allows the user to select a folder path
+        //removed from final product becasue of lack of functionality
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult result = folderBrowserDialog1.ShowDialog();
@@ -56,11 +61,12 @@ namespace LevelEditor
                 folderPath = folderBrowserDialog1.SelectedPath;
                 try
                 {
-                    textBox2.Text = folderPath;
+                    //places the folder path in the text box correllating to the button
+                    //textBox2.Text = folderPath;
                 }
-                catch (IOException)
+                catch (IOException ex)
                 {
-
+                    Console.WriteLine(ex.Message);
                 }
             }
 
@@ -68,14 +74,25 @@ namespace LevelEditor
 
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
         {
-
+            //nothing here
         }
 
+        //set the values of the text boxes to the values of the strings containing information
+        //output the data to a binary file that will later be read in by the game
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
+                //set filename
                 string filename = textBox3.Text;
+
+
+                //index the Content folder inside of the filepath
+                int index = file.IndexOf("Content");
+
+                //make a substring of the file path
+                string Finalfilepath = file.Substring(index);
+
 
                 Stream str = File.OpenWrite(filename);
                 BinaryWriter output = new BinaryWriter(str);
@@ -83,12 +100,15 @@ namespace LevelEditor
                 output.Write(file);
 
                 output.Close();
-
+                //read out a done message to the user to make it obvious that the button works.
                 label1.Text = "Done!";
-            }
-            catch(IOException)
-            {
 
+
+                
+            }
+            catch(IOException ex)
+            {
+                Console.WriteLine(ex.Message);         
             }
         }
     }
