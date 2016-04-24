@@ -93,12 +93,13 @@ namespace LevelEditor
                 //make a substring of the file path
                 string Finalfilepath = file.Substring(index);
 
-
+                //open a stream
                 Stream str = File.OpenWrite(filename);
+                //write to the stream
                 BinaryWriter output = new BinaryWriter(str);
 
                 output.Write(file);
-
+                //CLOSE STREAM
                 output.Close();
                 //read out a done message to the user to make it obvious that the button works.
                 label1.Text = "Done!";
